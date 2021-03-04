@@ -4,6 +4,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { SubjectsController } from './subjects/subjects.controller';
 import { SubjectService } from './subjects/subject/subject.service'
+import { TeacherModule } from './teacher/teacher.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -15,7 +17,7 @@ import { SubjectService } from './subjects/subject/subject.service'
     database: 'test',
     entities: ["dist/**/*.entity{.ts,.js}"],
     synchronize: true,
-  })],
+  }), TeacherModule, AuthModule],
   controllers: [AppController, SubjectsController],
   providers: [AppService, SubjectService],
 })
