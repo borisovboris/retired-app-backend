@@ -26,11 +26,9 @@ export class Teacher {
 
     @BeforeInsert()
     async hashPassword(): Promise<void> {
-        bcrypt.genSalt(bcryptConstants.saltRounds, function(err, salt) {
-            bcrypt.hash(this.password, salt, function(err, hash) {
-                      this.password = hash;
-             });
-          });
+        const salt = await bcrypt.genSalt(bcryptConstants.saltRounds);
+        const hash = await bcrypt.hash(this.password, salt);
+        this.password = hash;
     }
 
 }
