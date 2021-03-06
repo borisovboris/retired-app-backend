@@ -1,9 +1,10 @@
 import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { bcryptConstants } from '../bcrypt/bcrypt.constants';
+import { bcryptConstants } from 'src/bcrypt/bcrypt.constants';
 
 @Entity()
 export class Teacher {
+
     @PrimaryGeneratedColumn()
     id: number;
 

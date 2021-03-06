@@ -17,6 +17,7 @@ import { AuthModule } from './auth/auth.module';
     database: 'test',
     entities: ["dist/**/*.entity{.ts,.js}"],
     synchronize: true,
+    logging: true
   }), TeacherModule, AuthModule],
   controllers: [AppController, SubjectsController],
   providers: [AppService, SubjectService],
