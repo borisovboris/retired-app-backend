@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { SubjectsController } from './subjects/subjects.controller';
-import { SubjectService } from './subjects/subject/subject.service'
 import { TeacherModule } from './teacher/teacher.module';
 import { AuthModule } from './auth/auth.module';
+import { SubjectModule } from './subject/subject.module';
+import { StudentModule } from './student/student.module';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -18,8 +18,8 @@ import { AuthModule } from './auth/auth.module';
     entities: ["dist/**/*.entity{.ts,.js}"],
     synchronize: true,
     logging: true
-  }), TeacherModule, AuthModule],
-  controllers: [AppController, SubjectsController],
-  providers: [AppService, SubjectService],
+  }), TeacherModule, AuthModule, SubjectModule, StudentModule],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule { }

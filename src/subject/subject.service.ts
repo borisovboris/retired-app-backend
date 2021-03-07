@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { SubjectRepository } from 'src/core/repositories/subject.repository';
+import { SubjectRepository } from './subject.repository';
 import { Connection } from 'typeorm';
+import { Subject } from './subject.entity';
 
 @Injectable()
 export class SubjectService {
@@ -11,7 +12,8 @@ export class SubjectService {
     }
 
     async createSubject(name: string): Promise<void> {
-        this.subjectRepository.createSubject(name);
+        const entity = Object.assign(new Subject(), { name });
+        this.subjectRepository.save(entity);
     }
     
 }

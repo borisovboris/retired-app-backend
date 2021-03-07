@@ -8,21 +8,13 @@ export class Teacher {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({
-        unique: true,
-        nullable: false
-    })
+    @Column()
     username: string;
 
-    @Column({
-        unique: true,
-        nullable: false
-    })
+    @Column()
     email: string;
 
-    @Column({
-        nullable: false
-    })
+    @Column()
     password: string;
 
     @BeforeInsert()

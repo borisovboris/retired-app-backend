@@ -1,6 +1,6 @@
-import { Body, Controller, Get, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Req } from '@nestjs/common';
 import { Request } from 'express';
-import { SubjectService } from './subject/subject.service';
+import { SubjectService } from './subject.service';
 
 @Controller('subjects')
 export class SubjectsController {
@@ -15,8 +15,8 @@ export class SubjectsController {
     }
 
     @Post()
-    createSubject(@Body() name: string): void {
-        this.subjectService.createSubject(name);
+    createSubject(@Body() body): void {
+        this.subjectService.createSubject(body.name);
     }
     
 }
