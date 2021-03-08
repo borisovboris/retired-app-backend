@@ -5,7 +5,6 @@ import { Teacher } from 'src/teacher/teacher.entity';
 import { Connection } from 'typeorm';
 import { TeacherDto } from './teacher.dto';
 import { TeacherRepository } from './teacher.repository';
-import { Subject } from 'rxjs';
 
 @Injectable()
 export class TeacherService {
@@ -29,7 +28,8 @@ export class TeacherService {
 
     public async comparePasswords(clientUsername: string, clientPassword: string): Promise<boolean> {
         const dbPassword = await this.getTeacherPassword(clientUsername);
-        return await bcrypt.compare(clientPassword, dbPassword);
+        const result = await bcrypt.compare(clientPassword, dbPassword);
+        return result;
     }
 
     public async getHash(password: string): Promise<string> {

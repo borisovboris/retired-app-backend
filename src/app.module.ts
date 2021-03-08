@@ -16,6 +16,7 @@ import { StudentModule } from './student/student.module';
     password: 'root',
     database: 'test',
     entities: ["dist/**/*.entity{.ts,.js}"],
+    autoLoadEntities: true,
     synchronize: true,
     logging: true
   }), TeacherModule, AuthModule, SubjectModule, StudentModule],
