@@ -8,10 +8,10 @@ import { AuthService } from './auth.service';
 @Controller('auth')
 export class AuthController {
 
-    constructor(private ts: TeacherService, private as: AuthService, private ss: SubjectService) {}
+    constructor(private ts: TeacherService, private as: AuthService) {}
 
     @Post('teacher-register')
-    async teacherRegister(@Body() teacher) {
+    async teacherRegister(@Body() teacher: TeacherDto) {
        
           await this.ts.create(teacher);
           return {success: "Successfully registered"};

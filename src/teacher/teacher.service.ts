@@ -2,16 +2,18 @@ import { Injectable, Logger } from '@nestjs/common';
 import { bcryptConstants } from 'src/bcrypt/bcrypt.constants';
 import * as bcrypt from 'bcrypt';
 import { Teacher } from 'src/teacher/teacher.entity';
-import { Connection } from 'typeorm';
+import { Connection, Repository } from 'typeorm';
 import { TeacherDto } from './teacher.dto';
 import { TeacherRepository } from './teacher.repository';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class TeacherService {
-    teacherRepository: TeacherRepository;
 
-    constructor(private connection: Connection) {
-        this.teacherRepository = this.connection.getCustomRepository(TeacherRepository);
+    constructor(
+        @InjectRepository(Teacher) 
+        private readonly teacherRepository: Repository<Teacher>
+        ) {
     }
 
     public async create(teacher: TeacherDto) {    
@@ -21,7 +23,6 @@ export class TeacherService {
 
     public async findByUsername(username: string) {
         const teacher = await this.teacherRepository.findOne({ username });
-        
         const { password, ...result } = teacher;
         return result;
     }

@@ -1,14 +1,15 @@
 import { Injectable } from '@nestjs/common';
-import { SubjectRepository } from './subject.repository';
-import { Connection } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Subject } from './subject.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class SubjectService {
-    subjectRepository: SubjectRepository;
+   
 
-    constructor(private connection: Connection) {
-        this.subjectRepository = this.connection.getCustomRepository(SubjectRepository);
+    constructor(
+        @InjectRepository(Subject)
+        private readonly subjectRepository: Repository<Subject>) {
     }
 
     async createSubject(name: string): Promise<void> {

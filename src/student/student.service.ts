@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { Connection } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Student } from './student.entity';
-import { StudentRepository } from './student.repository';
 
 @Injectable()
 export class StudentService {
-    studentRepository: StudentRepository;
 
-    constructor(private connection: Connection){
-        this.studentRepository = this.connection.getCustomRepository(StudentRepository);
+    constructor(
+        @InjectRepository(Student)
+        private readonly studentRepository: Repository<Student>
+    ){
+        
     }
 
     async create(facultyNumber: string, name: string, email: string) {
