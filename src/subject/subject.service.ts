@@ -12,8 +12,8 @@ export class SubjectService {
         private readonly subjectRepository: Repository<Subject>) {
     }
 
-    async createSubject(name: string): Promise<void> {
-        const entity = Object.assign(new Subject(), { name });
+    async createSubject(name: string, description: string, creatorId: number): Promise<void> {
+        const entity = Object.assign(new Subject(), { name, description, creatorId });
         this.subjectRepository.save(entity);
     }
     

@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { TeacherRO } from 'src/teacher/teacher.ro';
 import { TeacherService } from 'src/teacher/teacher.service';
 
 @Injectable()
@@ -11,12 +12,20 @@ export class AuthService {
         const result = await this.ts.comparePasswords(username, password);
         
         if(result) {
-            const data = await this.ts.findByUsername(username);
-            const token = await this.jwtService.signAsync(data);
+            const teacher: TeacherRO = await this.ts.findByUsername(username);
+            const token = await this.jwtService.signAsync({ teacherId: '' + teacher.id });
             return token;
         }
 
         return null;
+    }
+
+    public async register(teacher) {
+       this.ts.create(teacher);
+    }
+
+    public validateToken(tokenId: string): Promise<any> {
+        return this.jwtService.verifyAsync(tokenId);
     }
 
 }

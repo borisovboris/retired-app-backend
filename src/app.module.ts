@@ -6,6 +6,9 @@ import { TeacherModule } from './teacher/teacher.module';
 import { AuthModule } from './auth/auth.module';
 import { SubjectModule } from './subject/subject.module';
 import { StudentModule } from './student/student.module';
+import { SubjectTeachersModule } from './subject-teachers/subject-teachers.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/auth.guard';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -19,7 +22,7 @@ import { StudentModule } from './student/student.module';
     autoLoadEntities: true,
     synchronize: true,
     logging: true
-  }), TeacherModule, AuthModule, SubjectModule, StudentModule],
+  }), TeacherModule, AuthModule, SubjectModule, StudentModule, SubjectTeachersModule],
   controllers: [AppController],
   providers: [AppService],
 })
