@@ -28,9 +28,9 @@ export class TeacherService {
 
     public async findById(teacherId: number) {
         const result = await this.teacherRepository.findOne(teacherId);
-        const { id, username, email } = result;
-        const teacher: TeacherRO = { id, username, email};
-        return teacher;
+        // const { id, username, email } = result;
+        // const teacher: TeacherRO = { id, username, email};
+        return result;
     }
 
     public async comparePasswords(clientUsername: string, clientPassword: string): Promise<boolean> {
@@ -42,6 +42,12 @@ export class TeacherService {
     private async getTeacherPassword(username: string): Promise<string> {
         const teacher = await this.teacherRepository.findOne({ username });
         return teacher.password;
+    }
+
+    public async getTeacherSubjects(teacherId: string) {
+        const id = teacherId;
+        const teacher = await this.teacherRepository.findOne(id, { relations: ["subjects"]});
+        return teacher.subjects;
     }
 
 }

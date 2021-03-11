@@ -4,19 +4,21 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { SubjectService } from './subject.service';
 
 @Controller('subjects')
+@UseGuards(AuthGuard)
 export class SubjectsController {
-    constructor(private subjectService: SubjectService) {
+    constructor(private subjectService: SubjectService) {}
 
-    }
     @Get()
-    getAllSubjects(@Req() request: Request): Array<string> {
-        return ['Math', 'History', 'English', 
-        'Geography', 'Something', 'Something',
-        'Something', 'Something'];
+    async getUserSubjects(@Req() req: Request) {
+        const userData = req.params.userData;
+        const userId = userData["id"];
+        Logger.log('start')
+        const userSubjects = await this.subjectService.getUserSubjects(userId);
+        Logger.log(userSubjects);
+        return userSubjects;
     }
 
     @Post()
-    @UseGuards(AuthGuard)
     createSubject(@Body() body, @Req() req: Request): void {
         const userData = req.params.userData;
         this.subjectService.createSubject(body.name, body.description, userData["id"]);

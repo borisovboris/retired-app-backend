@@ -27,8 +27,6 @@ export class AuthGuard implements CanActivate {
             if(!authorizationHeaders || !bearerToken) {
                 throw new Error();
             }
-
-            Logger.log(bearerToken);
     
             const tokenPayload = await this.as.validateToken(bearerToken);
 
