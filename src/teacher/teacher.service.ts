@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { Teacher } from 'src/teacher/teacher.entity';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TeacherRO } from './teacher.ro';
 
@@ -50,6 +50,15 @@ export class TeacherService {
         const teacher = await this.teacherRepository.findOne(id, { relations: ["subjects"]});
         const subjects = await teacher.subjects;
         return subjects;
+    }
+
+    public async searchTeachers(criteria: string) {
+        const result = await this.teacherRepository
+        .find({ where: [ {username: Like(`%${criteria}%`)}, {email: Like(`%${criteria}%`)} ] });
+        const teachers = result.map((el) => {
+            return {id: el.id, username: el.username, email: el.email}
+        });
+        return teachers;
     }
 
 

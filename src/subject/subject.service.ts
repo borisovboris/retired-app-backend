@@ -4,6 +4,7 @@ import { Subject } from './subject.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TeacherService } from 'src/teacher/teacher.service';
 import { Teacher } from 'src/teacher/teacher.entity';
+import { TeacherRO } from 'src/teacher/teacher.ro';
 
 @Injectable()
 export class SubjectService {
@@ -30,13 +31,22 @@ export class SubjectService {
 
     async getById(subjectId: number) {
         const id = subjectId;
-        const subject = await this.subjectRepository.findOne(id, { relations: ['teachers'] } );
+        const subject = await this.subjectRepository.findOne(id);
         return subject;
     }
 
-    async isSubjectModerator(subject: Subject, userId: number): Promise<boolean> {
-        const teachersOfSubject = await subject.teachers;
-        const condition = teachersOfSubject.some((teacher) => teacher.id === userId);
+    async getSubjectTeachers(subjectId: number) {
+        const id = subjectId;
+        const subject = await this.subjectRepository.findOne(id, { relations: ['teachers'] } );
+        const subjectTeachers = await (await subject.teachers).map(el => { 
+            return {id: el.id, username: el.username, email: el.email } 
+        });
+        return subjectTeachers;
+    }
+
+    async isSubjectModerator(subjectId: number, userId: number): Promise<boolean> {
+        const subjectTeachers = await this.getSubjectTeachers(subjectId);
+        const condition = subjectTeachers.some((teacher) => teacher.id === userId);
         return condition;
     }
     

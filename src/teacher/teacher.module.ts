@@ -10,6 +10,6 @@ import { TeacherController } from './teacher.controller';
 ],
   providers: [TeacherService],
   exports: [TeacherService],
-  controllers: []
+  controllers: [TeacherController]
 })
 export class TeacherModule {}

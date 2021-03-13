@@ -9,11 +9,26 @@ export class SubjectsController {
     constructor(private subjectService: SubjectService) {}
 
     @Get()
-    async getUserSubjects(@Req() req: Request) {
+    async getSubjects(@Req() req: Request) {
         const userData = req.params.userData;
         const userId = userData["id"];
         const userSubjects = await this.subjectService.getUserSubjects(userId);
         return userSubjects;
+    }
+    @Get(':id/teachers')
+    async getSubjectTeachers(@Req() req: Request, @Param() params) {
+        const userData = req.params.userData;
+        const userId = userData['id'];
+        const subjectId = params.id;
+
+        const isModerator = await this.subjectService.isSubjectModerator(subjectId, userId);
+
+        if(isModerator) {
+            const subjectTeachers = await this.subjectService.getSubjectTeachers(subjectId);
+            return subjectTeachers;
+        } else {
+            throw new UnauthorizedException;
+        }
     }
 
     @Get(':id')
@@ -22,10 +37,11 @@ export class SubjectsController {
         const userId = userData['id'];
         const subjectId = params.id;
 
-        const subject = await this.subjectService.getById(subjectId);
-        const isModerator = await this.subjectService.isSubjectModerator(subject, userId);
-        const { id, name, creatorId } = subject;
+        const isModerator = await this.subjectService.isSubjectModerator(subjectId, userId);
+        
         if(isModerator) {
+            const subject = await this.subjectService.getById(subjectId);
+            const { id, name, creatorId } = subject;
             return { id, name, creatorId };
         } else {
             throw new UnauthorizedException;
@@ -41,7 +57,5 @@ export class SubjectsController {
     }
     
 }
-function Params() {
-    throw new Error('Function not implemented.');
-}
+
 
