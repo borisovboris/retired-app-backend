@@ -27,7 +27,8 @@ export class TeacherService {
     }
 
     public async findById(teacherId: number) {
-        const result = await this.teacherRepository.findOne(teacherId);
+        const id = teacherId;
+        const result = await this.teacherRepository.findOne(id);
         // const { id, username, email } = result;
         // const teacher: TeacherRO = { id, username, email};
         return result;
@@ -50,5 +51,6 @@ export class TeacherService {
         const subjects = await teacher.subjects;
         return subjects;
     }
+
 
 }

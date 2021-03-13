@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Subject } from './subject.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -29,8 +29,15 @@ export class SubjectService {
     }
 
     async getById(subjectId: number) {
-        const subject = await this.subjectRepository.findOne({id: subjectId});
+        const id = subjectId;
+        const subject = await this.subjectRepository.findOne(id, { relations: ['teachers'] } );
         return subject;
+    }
+
+    async isSubjectModerator(subject: Subject, userId: number): Promise<boolean> {
+        const teachersOfSubject = await subject.teachers;
+        const condition = teachersOfSubject.some((teacher) => teacher.id === userId);
+        return condition;
     }
     
 }

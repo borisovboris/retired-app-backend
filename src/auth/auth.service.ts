@@ -13,7 +13,7 @@ export class AuthService {
         
         if(result) {
             const teacher: TeacherRO = await this.ts.findByUsername(username);
-            const token = await this.jwtService.signAsync({ teacherId: '' + teacher.id });
+            const token = await this.jwtService.signAsync({ id: '' + teacher.id });
             return token;
         }
 
