@@ -19,13 +19,18 @@ export class SubjectService {
         const teacher = await this.ts.findById(creatorId);
 
         const subject = Object.assign(new Subject(), { name, description, creatorId });
-        subject.teachers = [ teacher ];
+        subject.teachers = Promise.resolve([ teacher ]);
         await this.subjectRepository.save(subject);  
     }
 
     async getUserSubjects(userId: string) {
         const subjects = await this.ts.getTeacherSubjects(userId);
         return subjects;
+    }
+
+    async getById(subjectId: number) {
+        const subject = await this.subjectRepository.findOne({id: subjectId});
+        return subject;
     }
     
 }

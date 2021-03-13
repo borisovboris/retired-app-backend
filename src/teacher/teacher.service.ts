@@ -47,7 +47,8 @@ export class TeacherService {
     public async getTeacherSubjects(teacherId: string) {
         const id = teacherId;
         const teacher = await this.teacherRepository.findOne(id, { relations: ["subjects"]});
-        return teacher.subjects;
+        const subjects = await teacher.subjects;
+        return subjects;
     }
 
 }

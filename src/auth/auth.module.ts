@@ -11,7 +11,7 @@ import { jwtConstants } from './jwt/jwt.constants';
   imports: [TeacherModule,
   JwtModule.register({
     secret: jwtConstants.secret,
-    signOptions: { expiresIn: '600s'}
+    signOptions: { expiresIn: '3600s'}
   })],
   exports: [AuthService]
 })

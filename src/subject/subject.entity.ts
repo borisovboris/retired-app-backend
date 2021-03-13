@@ -18,6 +18,6 @@ export class Subject {
     description: string;
 
     @ManyToMany(type => Teacher, teacher => teacher.subjects)
-    teachers: Teacher[];
+    teachers: Promise<Teacher[]>;
 
 }

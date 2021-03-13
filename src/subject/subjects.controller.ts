@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { SubjectService } from './subject.service';
@@ -12,16 +12,26 @@ export class SubjectsController {
     async getUserSubjects(@Req() req: Request) {
         const userData = req.params.userData;
         const userId = userData["id"];
-        Logger.log('start')
         const userSubjects = await this.subjectService.getUserSubjects(userId);
-        Logger.log(userSubjects);
         return userSubjects;
     }
 
+    @Get(':id')
+    async getSubject(@Req() req: Request, @Param() params) {
+        const subjectId = params.id;
+        const subject = await this.subjectService.getById(subjectId);
+        return subject;
+    }
+
     @Post()
-    createSubject(@Body() body, @Req() req: Request): void {
+    async createSubject(@Body() body, @Req() req: Request) {
         const userData = req.params.userData;
-        this.subjectService.createSubject(body.name, body.description, userData["id"]);
+        await this.subjectService.createSubject(body.name, body.description, userData["id"]);
+        return;
     }
     
 }
+function Params() {
+    throw new Error('Function not implemented.');
+}
+

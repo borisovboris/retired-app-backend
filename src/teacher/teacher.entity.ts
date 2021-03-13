@@ -20,7 +20,7 @@ export class Teacher {
 
    @ManyToMany(type => Subject, subject => subject.teachers)
    @JoinTable()
-   subjects: Subject[];
+   subjects: Promise<Subject[]>;
 
    @BeforeInsert()
     async hashPassword(): Promise<void> {
