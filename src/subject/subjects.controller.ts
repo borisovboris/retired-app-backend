@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Logger, Param, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { SubjectService } from './subject.service';
+import { SubjectService } from '../base/services/subject.service';
 
 @Controller('subjects')
 @UseGuards(AuthGuard)
@@ -48,6 +48,8 @@ export class SubjectsController {
         }
         
     }
+
+  
 
     @Post()
     async createSubject(@Body() body, @Req() req: Request) {

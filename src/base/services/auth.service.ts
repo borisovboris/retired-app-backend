@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { TeacherRO } from 'src/teacher/teacher.ro';
-import { TeacherService } from 'src/teacher/teacher.service';
+import { TeacherService } from 'src/base/services/teacher.service';
 
 @Injectable()
 export class AuthService {

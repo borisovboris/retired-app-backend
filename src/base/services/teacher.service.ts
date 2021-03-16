@@ -1,18 +1,23 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { Teacher } from 'src/teacher/teacher.entity';
-import { Like, Repository } from 'typeorm';
+import { Connection, Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TeacherRO } from './teacher.ro';
+import { TeacherRO } from '../../teacher/teacher.ro';
+import { SubjectService } from 'src/base/services/subject.service';
+import { Subject } from 'src/subject/subject.entity';
 
 @Injectable()
 export class TeacherService {
+    subjectRepository: Repository<Subject>;
 
     constructor(
         @InjectRepository(Teacher) 
-        private readonly teacherRepository: Repository<Teacher>
+        private readonly teacherRepository: Repository<Teacher>,
+        private readonly connection: Connection
         ) {
-    }
+            this.subjectRepository = this.connection.getRepository(Subject);
+        }
 
     public async create(teacher) {    
         const entity = Object.assign(new Teacher(), teacher);
@@ -28,7 +33,7 @@ export class TeacherService {
 
     public async findById(teacherId: number) {
         const id = teacherId;
-        const result = await this.teacherRepository.findOne(id);
+        const result = await this.teacherRepository.findOne(id, {relations: ['subjects'] });
         // const { id, username, email } = result;
         // const teacher: TeacherRO = { id, username, email};
         return result;
@@ -59,6 +64,14 @@ export class TeacherService {
             return {id: el.id, username: el.username, email: el.email}
         });
         return teachers;
+    }
+
+    async addTeacherToSubject(teacherId, subjectId) {
+        const id = subjectId;
+        const teacher = await this.findById(teacherId);
+        const subject = await this.subjectRepository.findOne(id);
+        teacher.subjects = Promise.resolve([ subject ]);
+        await this.teacherRepository.save(teacher);
     }
 
 

@@ -9,6 +9,8 @@ import { StudentModule } from './student/student.module';
 import { SubjectTeachersModule } from './subject-teachers/subject-teachers.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/auth.guard';
+import { BaseModule } from './base/base.module';
+import { TopicModule } from './topic/topic.module';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -22,7 +24,13 @@ import { AuthGuard } from './auth/auth.guard';
     autoLoadEntities: true,
     synchronize: true,
     logging: true
-  }), TeacherModule, AuthModule, SubjectModule, StudentModule, SubjectTeachersModule],
+  }), 
+  BaseModule,
+  TeacherModule, 
+  AuthModule, 
+  SubjectModule, 
+  StudentModule, 
+  SubjectTeachersModule, TopicModule],
   controllers: [AppController],
   providers: [AppService],
 })

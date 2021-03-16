@@ -6,9 +6,9 @@ import {
     HttpException, 
     HttpStatus, 
     UnauthorizedException } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { TeacherService } from 'src/teacher/teacher.service';
-import { AuthService } from './auth.service';
+
+import { TeacherService } from 'src/base/services/teacher.service';
+import { AuthService } from '../base/services/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

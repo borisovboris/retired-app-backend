@@ -18,7 +18,9 @@ export class Teacher {
    @Column()
    password: string;
 
-   @ManyToMany(type => Subject, subject => subject.teachers)
+   @ManyToMany(type => Subject, subject => subject.teachers, {
+    cascade: true,
+   })
    @JoinTable()
    subjects: Promise<Subject[]>;
 
