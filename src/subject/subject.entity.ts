@@ -1,5 +1,6 @@
 import { Teacher } from 'src/teacher/teacher.entity';
-import {Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, Generated, Index, ManyToMany, JoinTable} from 'typeorm';
+import { Topic } from 'src/topic/topic.entity';
+import {Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, Generated, Index, ManyToMany, JoinTable, OneToMany} from 'typeorm';
 
 @Entity()
 @Index(["creatorId", "name"], { unique: true })
@@ -19,5 +20,8 @@ export class Subject {
 
     @ManyToMany(type => Teacher, teacher => teacher.subjects)
     teachers: Promise<Teacher[]>;
+
+    @OneToMany(type => Topic, topic => topic.subject)
+    topics: Promise<Topic[]>;
 
 }

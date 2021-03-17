@@ -1,10 +1,20 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { TopicService } from 'src/base/services/topic.service';
 
-@Controller('topic')
+@Controller('topics')
 export class TopicController {
+    constructor(private readonly topicService: TopicService) {}
+
+    @Get(':id')
+    async topicsOfSubject(@Param() params) {
+        const subjectId = params.id;
+        const topicsOfSubject = await this.topicService.getTopicsOfSubject(subjectId);
+        return topicsOfSubject;
+    } 
+
     @Post('add')
-    async addTopicToSubject(@Body() body) {
+    async createSubject(@Body() body) {
         const { name, subjectId } = body;
-        
+        await this.topicService.addTopicToSubject(name, subjectId);
     }
 }
