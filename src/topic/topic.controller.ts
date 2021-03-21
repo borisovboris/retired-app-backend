@@ -1,9 +1,26 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { ModeratorGuard } from 'src/auth/moderator.guard';
 import { TopicService } from 'src/base/services/topic.service';
 
+@UseGuards(AuthGuard)
 @Controller('topics')
 export class TopicController {
     constructor(private readonly topicService: TopicService) {}
+
+    @Get('details/:id')
+    async getTopic(@Param() params) {
+        const topicId = params.id;
+        const topic = await this.topicService.getTopic(topicId);
+        return topic;
+    }
+
+    @Get(':id/questions')
+    async getTopicQuestions(@Param() params) {
+        const topicId = params.id;
+        const questions = await this.topicService.getQuestionsOfTopic(topicId);
+        return questions;
+    }
 
     @Get(':id')
     async topicsOfSubject(@Param() params) {
@@ -13,7 +30,7 @@ export class TopicController {
     } 
 
     @Post('add')
-    async createSubject(@Body() body) {
+    async createTopic(@Body() body) {
         const { name, subjectId } = body;
         await this.topicService.addTopicToSubject(name, subjectId);
     }

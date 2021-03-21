@@ -24,8 +24,8 @@ export class AuthService {
        this.ts.create(teacher);
     }
 
-    public validateToken(tokenId: string): Promise<any> {
-        return this.jwtService.verifyAsync(tokenId);
+    public async validateToken(tokenId: string): Promise<any> {
+        return await this.jwtService.verifyAsync(tokenId);
     }
 
 }

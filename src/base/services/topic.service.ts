@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Subject } from 'src/subject/subject.entity';
 import { Topic } from 'src/topic/topic.entity';
@@ -19,6 +19,12 @@ export class TopicService {
         this.subjectRepository = this.connection.getRepository(Subject);
     }
 
+    public async getTopic(topicId: number) {
+        const id = topicId;
+        const topic = await this.topicRepository.findOne(id);
+        return topic;
+    }
+
     public async addTopicToSubject(name: string, subjectId: number) {
         const topic = new Topic();
         topic.name = name;
@@ -32,5 +38,13 @@ export class TopicService {
         const subject = await this.subjectRepository.findOne(id);
         const topicsOfSubject = await subject.topics;
         return topicsOfSubject;
+    }
+
+    public async getQuestionsOfTopic(topicId) {
+        const id = topicId;
+        const topic = await this.topicRepository.findOne(id, { relations: ["questions"] });
+        const questions = await topic.questions;
+        // Logger.log(JSON.stringify(await questions[1]["answers"]));
+        return questions;
     }
 }

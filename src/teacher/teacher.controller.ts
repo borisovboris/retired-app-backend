@@ -4,7 +4,7 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { SubjectService } from 'src/base/services/subject.service';
 import { TeacherService } from '../base/services/teacher.service';
 
-
+@UseGuards(AuthGuard)
 @Controller('teachers')
 export class TeacherController {
    constructor(
@@ -24,7 +24,6 @@ export class TeacherController {
         return null;
     }
 
-    @UseGuards(AuthGuard)
     @Post('add-teacher-to-subject')
     async addTeacherToSubject(@Body() body, @Req() req: Request) {
         const userData = req.params.userData;

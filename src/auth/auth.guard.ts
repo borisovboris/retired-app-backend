@@ -23,6 +23,7 @@ export class AuthGuard implements CanActivate {
             const request = context.switchToHttp().getRequest();
             const authorizationHeaders = request.headers["authorization"];
             const bearerToken = authorizationHeaders.split(' ')[1];
+            
 
             if(!authorizationHeaders || !bearerToken) {
                 throw new Error();

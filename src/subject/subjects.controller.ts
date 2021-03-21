@@ -1,10 +1,11 @@
 import { Body, Controller, Get, Logger, Param, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { ModeratorGuard } from 'src/auth/moderator.guard';
 import { SubjectService } from '../base/services/subject.service';
 
-@Controller('subjects')
 @UseGuards(AuthGuard)
+@Controller('subjects')
 export class SubjectsController {
     constructor(private subjectService: SubjectService) {}
 
@@ -15,6 +16,7 @@ export class SubjectsController {
         const userSubjects = await this.subjectService.getUserSubjects(userId);
         return userSubjects;
     }
+
     @Get(':id/teachers')
     async getSubjectTeachers(@Req() req: Request, @Param() params) {
         const userData = req.params.userData;

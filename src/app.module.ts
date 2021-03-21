@@ -6,11 +6,10 @@ import { TeacherModule } from './teacher/teacher.module';
 import { AuthModule } from './auth/auth.module';
 import { SubjectModule } from './subject/subject.module';
 import { StudentModule } from './student/student.module';
-import { SubjectTeachersModule } from './subject-teachers/subject-teachers.module';
-import { APP_GUARD } from '@nestjs/core';
-import { AuthGuard } from './auth/auth.guard';
 import { BaseModule } from './base/base.module';
 import { TopicModule } from './topic/topic.module';
+import { QuestionModule } from './question/question.module';
+import { AnswerModule } from './answer/answer.module';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -30,7 +29,7 @@ import { TopicModule } from './topic/topic.module';
   AuthModule, 
   SubjectModule, 
   StudentModule, 
-  SubjectTeachersModule, TopicModule],
+  TopicModule, QuestionModule, AnswerModule],
   controllers: [AppController],
   providers: [AppService],
 })

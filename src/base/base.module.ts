@@ -1,7 +1,11 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { Answer } from 'src/answer/answer.entity';
+import { AnswerRepository } from 'src/answer/answer.repository';
 import { jwtConstants } from 'src/auth/jwt/jwt.constants';
+import { Question } from 'src/question/question.entity';
+import { QuestionRepository } from 'src/question/question.repository';
 import { Student } from 'src/student/student.entity';
 import { StudentRepository } from 'src/student/student.repository';
 import { Subject } from 'src/subject/subject.entity';
@@ -11,6 +15,7 @@ import { TeacherRepository } from 'src/teacher/teacher.repository';
 import { Topic } from 'src/topic/topic.entity';
 import { TopicRepository } from 'src/topic/topic.repository';
 import { AuthService } from './services/auth.service';
+import { QuestionService } from './services/question.service';
 import { StudentService } from './services/student.service';
 import { SubjectService } from './services/subject.service';
 import { TeacherService } from './services/teacher.service';
@@ -22,11 +27,13 @@ import { TopicService } from './services/topic.service';
         Subject, SubjectRepository, 
         Teacher, TeacherRepository,
         Student, StudentRepository,
-        Topic, TopicRepository
+        Topic, TopicRepository,
+        Question, QuestionRepository,
+        Answer, AnswerRepository
         ]),
         JwtModule.register({
             secret: jwtConstants.secret,
-            signOptions: { expiresIn: '3600s'}
+            signOptions: { expiresIn: '36000s'}
           })
     ],
     providers: [
@@ -34,14 +41,16 @@ import { TopicService } from './services/topic.service';
         SubjectService, 
         TeacherService, 
         StudentService, 
-        TopicService
+        TopicService,
+        QuestionService
     ],
     exports: [
         AuthService, 
         SubjectService, 
         TeacherService, 
         StudentService, 
-        TopicService
+        TopicService,
+        QuestionService
     ]
 })
 export class BaseModule {  
