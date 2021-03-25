@@ -15,7 +15,9 @@ export class AuthGuard implements CanActivate {
     constructor(
         private readonly as: AuthService,
         private readonly ts: TeacherService
-        ){}
+        ){
+            Logger.log('auth guard');
+        }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
 

@@ -28,6 +28,8 @@ export class SubjectService {
         await this.subjectRepository.save(subject);  
     }
 
+
+    // THIS SHOULD BE IN TEACHER SERVICE NOT IN SUBJECT SERVICE
     async getUserSubjects(userId: number) {
         const id = userId;
         const teacher = await this.teacherRepository.findOne( id, {relations: ['subjects']} );
@@ -50,6 +52,12 @@ export class SubjectService {
             return {id: el.id, username: el.username, email: el.email } 
         });
         return subjectTeachers;
+    }
+
+    async getSubjectTopics(subjectId: number) {
+        const subject = await this.subjectRepository.findOne({id: subjectId}, { relations: ["topics"]});
+        const topics = await subject.topics;
+        return topics;
     }
 
     async isSubjectModerator(subjectId: number, userId: number): Promise<boolean> {

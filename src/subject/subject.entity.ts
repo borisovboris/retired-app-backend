@@ -1,3 +1,4 @@
+import { Exam } from 'src/exam/exam.entity';
 import { Teacher } from 'src/teacher/teacher.entity';
 import { Topic } from 'src/topic/topic.entity';
 import {Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, Generated, Index, ManyToMany, JoinTable, OneToMany} from 'typeorm';
@@ -23,5 +24,8 @@ export class Subject {
 
     @OneToMany(type => Topic, topic => topic.subject)
     topics: Promise<Topic[]>;
+
+    @OneToMany(type => Exam, exam => exam.subject)
+    exams: Promise<Exam[]>;
 
 }

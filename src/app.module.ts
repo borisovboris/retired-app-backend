@@ -10,6 +10,7 @@ import { BaseModule } from './base/base.module';
 import { TopicModule } from './topic/topic.module';
 import { QuestionModule } from './question/question.module';
 import { AnswerModule } from './answer/answer.module';
+import { ExamModule } from './exam/exam.module';
 
 @Module({
   imports: [ TypeOrmModule.forRoot({
@@ -29,7 +30,7 @@ import { AnswerModule } from './answer/answer.module';
   AuthModule, 
   SubjectModule, 
   StudentModule, 
-  TopicModule, QuestionModule, AnswerModule],
+  TopicModule, QuestionModule, AnswerModule, ExamModule],
   controllers: [AppController],
   providers: [AppService],
 })

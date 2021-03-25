@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { ModeratorGuard } from 'src/auth/moderator.guard';
 import { TopicService } from 'src/base/services/topic.service';
 
 @UseGuards(AuthGuard)

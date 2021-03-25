@@ -9,6 +9,8 @@ export class QuestionController {
         private readonly questionService: QuestionService
     ) {}
 
+    // CHECK IF TOPIC WHERE QUESTION HAS TO BE ADDED
+    // IS PART OF THE SUBJECT OR NOT
     @Get('answers/:id')
     async getQuestionAnswers(@Param() params) {
         const questionId = params.id;

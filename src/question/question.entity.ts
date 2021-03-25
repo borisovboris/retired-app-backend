@@ -1,6 +1,7 @@
 import { Answer } from "src/answer/answer.entity";
+import { Exam } from "src/exam/exam.entity";
 import { Topic } from "src/topic/topic.entity";
-import { Column, Entity, Index, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, Index, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 enum Types {
  Open = "open",
@@ -25,4 +26,7 @@ export class Question {
 
     @ManyToOne(type => Topic, topic => topic.questions)
     topic: Topic;
+
+    @ManyToMany(type => Exam, exam => exam.questions)
+    exams: Promise<Exam[]>
 }

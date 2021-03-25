@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Logger, Param, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { ModeratorGuard } from 'src/auth/moderator.guard';
 import { SubjectService } from '../base/services/subject.service';
 
 @UseGuards(AuthGuard)
@@ -15,6 +14,16 @@ export class SubjectsController {
         const userId = userData["id"];
         const userSubjects = await this.subjectService.getUserSubjects(userId);
         return userSubjects;
+    }
+
+    @Get(':id/topics')
+    async getSubjectTopics(@Req() req: Request, @Param() params) {
+        const userData = req.params.userData;
+        const userId = userData['id'];
+        const subjectId = params.id;
+
+        const topics = await this.subjectService.getSubjectTopics(subjectId);
+        return topics;
     }
 
     @Get(':id/teachers')
