@@ -1,6 +1,6 @@
 import { Answer } from "src/answer/answer.entity";
-import { Exam } from "src/exam/exam.entity";
-import { Topic } from "src/topic/topic.entity";
+import { Exam } from "src/base/entities/exam.entity";
+import { Topic } from "src/base/entities/topic.entity";
 import { Column, Entity, Index, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 enum Types {
@@ -22,11 +22,11 @@ export class Question {
     type: Types;
 
     @OneToMany(type => Answer, answer => answer.question)
-    answers: Promise<Answer[]>
+    answers: Answer[];
 
     @ManyToOne(type => Topic, topic => topic.questions)
     topic: Topic;
 
     @ManyToMany(type => Exam, exam => exam.questions)
-    exams: Promise<Exam[]>
+    exams: Promise<Exam[]>;
 }

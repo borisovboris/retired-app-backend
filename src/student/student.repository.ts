@@ -1,5 +1,5 @@
 import { EntityRepository, Repository } from "typeorm";
-import { Student } from "./student.entity";
+import { Student } from "../base/entities/student.entity";
 
 
 

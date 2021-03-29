@@ -1,8 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Exam } from 'src/exam/exam.entity';
-import { Question } from 'src/question/question.entity';
-import { Subject } from 'src/subject/subject.entity';
+import { Exam } from 'src/base/entities/exam.entity';
+import { Question } from 'src/base/entities/question.entity';
+import { Subject } from 'src/base/entities/subject.entity';
 import { Connection, Repository } from 'typeorm';
 
 @Injectable()
@@ -39,24 +39,28 @@ export class ExamService {
     }
 
     public async addQuestionToExam(examId: number, questionId: number) {
-        Logger.log("service -------" + examId + "          " + questionId);
         const exam = await this.examRepository.findOne({ id: examId });
-        const question = await this.questionRepository.findOne({ id: questionId });
-        // exam.questions = Promise.resolve([question]);
-        (await exam.questions).push(question);
+        const newQuestion = await this.questionRepository.findOne({ id: questionId });
+        const questions = await exam.questions;
+        exam.questions = Promise.resolve([...questions, newQuestion]);
+        // (await exam.questions).push(question);
+        Logger.log(JSON.stringify(await exam.questions));
         await this.examRepository.save(exam);
         return;
     }
 
-    // const id = subjectId;
-    // const teacher = await this.findById(teacherId);
-    // const subject = await this.subjectRepository.findOne(id);
-    // teacher.subjects = Promise.resolve([ subject ]);
-    // await this.teacherRepository.save(teacher);
-
     public async getExamQuestions(examId: number) {
-        const exam = await this.examRepository.findOne({ id: examId }, { relations: ["questions"] });
+        const exam = await this.examRepository.findOne({ id: examId }, { relations: ["questions", "questions.answers"] });
+        // question.answers of question entity is no longer a promise because of later complex implementation
         const questions = await exam.questions;
         return questions;
+    }
+
+    async removeQuestionFromExam(examId: number, questionId: number) {
+        const exam = await this.examRepository.findOne({ id: examId }, { relations: ["questions"] });
+        const questions = await exam.questions;
+        // the new questions have to be turned into a promise object or they cant be saved in exam.questions
+        exam.questions = Promise.resolve(questions.filter(question => question.id != questionId));
+        await this.examRepository.save(exam);
     }
 }

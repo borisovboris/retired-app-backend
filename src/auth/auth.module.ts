@@ -6,7 +6,7 @@ import { jwtConstants } from './jwt/jwt.constants';
 import { BaseModule } from 'src/base/base.module';
 import { TeacherService } from 'src/base/services/teacher.service';
 import { SubjectService } from 'src/base/services/subject.service';
-import { AuthGuard } from './auth.guard';
+import { TeacherGuard } from './teacher.guard';
 
 @Module({
   controllers: [AuthController],

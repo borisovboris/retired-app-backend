@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Subject } from './subject.entity';
+import { Subject } from '../base/entities/subject.entity';
 import { SubjectRepository } from './subject.repository';
 import { SubjectService } from '../base/services/subject.service';
 import { SubjectsController } from './subjects.controller';

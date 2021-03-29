@@ -11,7 +11,7 @@ export const RoleGuard = (role: string) => {
         async canActivate(context: ExecutionContext) {
             const request = context.switchToHttp().getRequest();
             //try to get origin url here and take the subjectID
-            // Logger.log(request.headers);
+            Logger.log(request.headers);
             
             const subjectId = request.headers["subject-id"]; //subject-id is in the request's headers
             const userData = request.params.userData; // userData was attached to the request by the authguard 

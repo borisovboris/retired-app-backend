@@ -4,11 +4,11 @@ import { StudentService } from 'src/base/services/student.service';
 
 @Controller('students')
 export class StudentController {
-    constructor(private ss: StudentService){}
+    constructor(private studentService: StudentService){}
 
     @Post()
     async create(@Body() body) {
-        const { facultyNumber, name, email } = body;
-        await this.ss.create(facultyNumber, name, email);
+        // const { username, email, facultyNumber, password } = body;
+        // await this.studentService.create(username, email, facultyNumber, password);
     }
 }

@@ -1,10 +1,10 @@
 import { Body, Controller, Get, Param, Post, Req, UnauthorizedException, UseGuards } from '@nestjs/common';
 import { Request } from 'express';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { TeacherGuard } from 'src/auth/teacher.guard';
 import { SubjectService } from 'src/base/services/subject.service';
 import { TeacherService } from '../base/services/teacher.service';
 
-@UseGuards(AuthGuard)
+@UseGuards(TeacherGuard)
 @Controller('teachers')
 export class TeacherController {
    constructor(
@@ -23,6 +23,15 @@ export class TeacherController {
     async emptySearch() {
         return null;
     }
+
+    @Get('subjects')
+    async getSubjects(@Req() req: Request) {
+        const userData = req.params.userData;
+        const userId = userData["id"];
+        const userSubjects = await this.teacherService.getUserSubjects(userId);
+        return userSubjects;
+    }
+
 
     @Post('add-teacher-to-subject')
     async addTeacherToSubject(@Body() body, @Req() req: Request) {

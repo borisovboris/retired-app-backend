@@ -3,9 +3,9 @@ import { Connection, Repository } from 'typeorm';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { TeacherService } from 'src/base/services/teacher.service';
-import { Teacher } from 'src/teacher/teacher.entity';
+import { Teacher } from 'src/base/entities/teacher.entity';
 import { TeacherRO } from 'src/teacher/teacher.ro';
-import { Subject } from 'src/subject/subject.entity';
+import { Subject } from 'src/base/entities/subject.entity';
 
 @Injectable()
 export class SubjectService {
@@ -30,13 +30,7 @@ export class SubjectService {
 
 
     // THIS SHOULD BE IN TEACHER SERVICE NOT IN SUBJECT SERVICE
-    async getUserSubjects(userId: number) {
-        const id = userId;
-        const teacher = await this.teacherRepository.findOne( id, {relations: ['subjects']} );
-        const subjects = await teacher.subjects;
 
-        return subjects;
-    }
 
     async getById(subjectId: number) {
         const id = subjectId;

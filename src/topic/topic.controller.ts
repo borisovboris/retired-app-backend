@@ -1,8 +1,8 @@
 import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { AuthGuard } from 'src/auth/auth.guard';
+import { TeacherGuard } from 'src/auth/teacher.guard';
 import { TopicService } from 'src/base/services/topic.service';
 
-@UseGuards(AuthGuard)
+@UseGuards(TeacherGuard)
 @Controller('topics')
 export class TopicController {
     constructor(private readonly topicService: TopicService) {}

@@ -1,7 +1,7 @@
 import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { bcryptConstants } from 'src/bcrypt/bcrypt.constants';
-import { Subject } from 'src/subject/subject.entity';
+import { Subject } from 'src/base/entities/subject.entity';
 
 @Entity({name: 'teacher'})
 export class Teacher {

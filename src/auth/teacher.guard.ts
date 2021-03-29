@@ -9,14 +9,14 @@ import {
 
 import { TeacherService } from 'src/base/services/teacher.service';
 import { AuthService } from '../base/services/auth.service';
-
+// this guard is used to authenticate a teacher and attach their info to
+// the request object
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class TeacherGuard implements CanActivate {
     constructor(
         private readonly as: AuthService,
         private readonly ts: TeacherService
         ){
-            Logger.log('auth guard');
         }
 
     async canActivate(context: ExecutionContext): Promise<boolean> {

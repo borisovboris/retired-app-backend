@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
-import { Teacher } from 'src/teacher/teacher.entity';
+import { Teacher } from 'src/base/entities/teacher.entity';
 import { Connection, Like, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TeacherRO } from '../../teacher/teacher.ro';
 import { SubjectService } from 'src/base/services/subject.service';
-import { Subject } from 'src/subject/subject.entity';
+import { Subject } from 'src/base/entities/subject.entity';
 
 @Injectable()
 export class TeacherService {
@@ -72,6 +72,14 @@ export class TeacherService {
         const subject = await this.subjectRepository.findOne(id);
         teacher.subjects = Promise.resolve([ subject ]);
         await this.teacherRepository.save(teacher);
+    }
+
+    async getUserSubjects(userId: number) {
+        const id = userId;
+        const teacher = await this.teacherRepository.findOne( id, {relations: ['subjects']} );
+        const subjects = await teacher.subjects;
+
+        return subjects;
     }
 
 

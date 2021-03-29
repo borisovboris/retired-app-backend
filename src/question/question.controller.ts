@@ -26,7 +26,6 @@ export class QuestionController {
         } else if (question.type === 'closed') {
             this.questionService.addClosedQuestion(question);
         }
-        Logger.log(question);
     }
 
 }

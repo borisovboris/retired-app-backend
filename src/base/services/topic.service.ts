@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Subject } from 'src/subject/subject.entity';
-import { Topic } from 'src/topic/topic.entity';
+import { Subject } from 'src/base/entities/subject.entity';
+import { Topic } from 'src/base/entities/topic.entity';
 import { Connection, Repository } from 'typeorm';
 import { SubjectService } from './subject.service';
 

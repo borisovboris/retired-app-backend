@@ -1,6 +1,6 @@
-import { Exam } from 'src/exam/exam.entity';
-import { Teacher } from 'src/teacher/teacher.entity';
-import { Topic } from 'src/topic/topic.entity';
+import { Exam } from 'src/base/entities/exam.entity';
+import { Teacher } from 'src/base/entities/teacher.entity';
+import { Topic } from 'src/base/entities/topic.entity';
 import {Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, Generated, Index, ManyToMany, JoinTable, OneToMany} from 'typeorm';
 
 @Entity()
