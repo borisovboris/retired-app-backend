@@ -1,6 +1,8 @@
 import { bcryptConstants } from 'src/bcrypt/bcrypt.constants';
-import { BeforeInsert, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Subject } from './subject.entity';
+
 
 
 @Entity()
@@ -11,7 +13,7 @@ export class Student {
 
     @Column({ unique: true })
     username: string;
-    
+
     @Column({ unique: true })
     email: string;
 
@@ -20,6 +22,12 @@ export class Student {
 
     @Column()
     password: string;
+
+    @ManyToMany(type => Subject, subject => subject.students, {
+        cascade: true
+    })
+    @JoinTable()
+    subjects: Promise<Subject[]>;
 
     @BeforeInsert()
     async hashPassword(): Promise<void> {

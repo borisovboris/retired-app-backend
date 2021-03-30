@@ -14,10 +14,9 @@ import { AuthService } from '../base/services/auth.service';
 @Injectable()
 export class TeacherGuard implements CanActivate {
     constructor(
-        private readonly as: AuthService,
+        private readonly authService: AuthService,
         private readonly ts: TeacherService
-        ){
-        }
+        ) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
 
@@ -26,12 +25,12 @@ export class TeacherGuard implements CanActivate {
             const authorizationHeaders = request.headers["authorization"];
             const bearerToken = authorizationHeaders.split(' ')[1];
             
-
+            // check for occupation: teacher
             if(!authorizationHeaders || !bearerToken) {
                 throw new Error();
             }
     
-            const tokenPayload = await this.as.validateToken(bearerToken);
+            const tokenPayload = await this.authService.validateToken(bearerToken);
 
             const { id } = tokenPayload;
             const existingUser = await this.ts.findById(id);

@@ -42,9 +42,9 @@ export class ExamService {
         const exam = await this.examRepository.findOne({ id: examId });
         const newQuestion = await this.questionRepository.findOne({ id: questionId });
         const questions = await exam.questions;
+        //get with relations in findOne
         exam.questions = Promise.resolve([...questions, newQuestion]);
         // (await exam.questions).push(question);
-        Logger.log(JSON.stringify(await exam.questions));
         await this.examRepository.save(exam);
         return;
     }

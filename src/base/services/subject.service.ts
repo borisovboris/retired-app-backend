@@ -54,6 +54,12 @@ export class SubjectService {
         return topics;
     }
 
+    async getSubjectStudents(subjectId) {
+        const subject = await this.subjectRepository.findOne({id: subjectId}, { relations: ["students"]});
+        const students = await subject.students;
+        return students;
+    }
+
     async isSubjectModerator(subjectId: number, userId: number): Promise<boolean> {
         const subjectTeachers = await this.getSubjectTeachers(subjectId);
         const condition = subjectTeachers.some((teacher) => teacher.id === userId);

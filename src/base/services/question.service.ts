@@ -49,7 +49,7 @@ export class QuestionService {
 
     public async getQuestionAnswers(questionId: number) {
         const question = await this.questionRepository.findOne({id: questionId}, { relations: ["answers"]});
-        const answers = await  question.answers;
+        const answers = await question.answers;
         return answers;
     }
 }

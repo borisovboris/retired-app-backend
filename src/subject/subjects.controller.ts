@@ -20,11 +20,17 @@ export class SubjectsController {
 
     @Get(':id/teachers')
     async getSubjectTeachers(@Req() req: Request, @Param() params) {
-        const userData = req.params.userData;
         const subjectId = params.id;
        
         const subjectTeachers = await this.subjectService.getSubjectTeachers(subjectId);
         return subjectTeachers;
+    }
+
+    @Get(':id/students')
+    async getSubjectStudents(@Param() params) {
+        const subjectId = params.id;
+        const subjectStudents = await this.subjectService.getSubjectStudents(subjectId);
+        return subjectStudents;
     }
 
     @Get(':id')
