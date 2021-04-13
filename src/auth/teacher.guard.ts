@@ -31,10 +31,16 @@ export class TeacherGuard implements CanActivate {
             }
     
             const tokenPayload = await this.authService.validateToken(bearerToken);
+            const { teacherId } = tokenPayload;
 
-            const { id } = tokenPayload;
-            const existingUser = await this.ts.findById(id);
+            if(!teacherId) {
+                throw new Error();
+            }
+            
+            //works with undefined passed to findById
+            const existingUser = await this.ts.findById(undefined);
 
+            console.log(existingUser);
             if(!existingUser) {
                 throw new Error();
             }

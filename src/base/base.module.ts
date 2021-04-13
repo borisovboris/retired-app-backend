@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Answer } from 'src/answer/answer.entity';
+import { Answer } from 'src/base/entities/answer.entity';
 import { AnswerRepository } from 'src/answer/answer.repository';
 import { jwtConstants } from 'src/auth/jwt/jwt.constants';
 import { Exam } from 'src/base/entities/exam.entity';

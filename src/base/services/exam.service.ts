@@ -19,7 +19,7 @@ export class ExamService {
         this.questionRepository = this.connection.getRepository(Question);
     }
 
-    public async createExam(name: string, subjectId: number) {
+    public async createExam(name: string, subjectId: number): Promise<void> {
         const examEntity = Object.assign(new Exam(), { name });
         const subject = await this.subjectRepository.findOne({id: subjectId});
         examEntity.subject = subject;
@@ -27,36 +27,35 @@ export class ExamService {
         return;
     }
 
-    public async getExams(subjectId: number) {
+    public async getExams(subjectId: number): Promise<Exam[]> {
         const subject = await this.subjectRepository.findOne({id: subjectId}, { relations: ["exams"]});
         const exams = await subject.exams;
         return exams;
     }
 
-    public async getExam(examId: number) {
+    public async getExam(examId: number): Promise<Exam> {
         const exam = await this.examRepository.findOne({id: examId}, {relations: ["questions"]});
         return exam;
     }
 
-    public async addQuestionToExam(examId: number, questionId: number) {
+    public async addQuestionToExam(examId: number, questionId: number): Promise<void> {
         const exam = await this.examRepository.findOne({ id: examId });
         const newQuestion = await this.questionRepository.findOne({ id: questionId });
         const questions = await exam.questions;
-        //get with relations in findOne
         exam.questions = Promise.resolve([...questions, newQuestion]);
         // (await exam.questions).push(question);
         await this.examRepository.save(exam);
         return;
     }
 
-    public async getExamQuestions(examId: number) {
+    public async getExamQuestions(examId: number): Promise<Question[]> {
         const exam = await this.examRepository.findOne({ id: examId }, { relations: ["questions", "questions.answers"] });
         // question.answers of question entity is no longer a promise because of later complex implementation
         const questions = await exam.questions;
         return questions;
     }
 
-    async removeQuestionFromExam(examId: number, questionId: number) {
+    async removeQuestionFromExam(examId: number, questionId: number): Promise<void> {
         const exam = await this.examRepository.findOne({ id: examId }, { relations: ["questions"] });
         const questions = await exam.questions;
         // the new questions have to be turned into a promise object or they cant be saved in exam.questions

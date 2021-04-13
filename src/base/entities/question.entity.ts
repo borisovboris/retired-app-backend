@@ -1,4 +1,4 @@
-import { Answer } from "src/answer/answer.entity";
+import { Answer } from "src/base/entities/answer.entity";
 import { Exam } from "src/base/entities/exam.entity";
 import { Topic } from "src/base/entities/topic.entity";
 import { Column, Entity, Index, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";

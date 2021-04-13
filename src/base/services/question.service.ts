@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Answer } from 'src/answer/answer.entity';
+import { Answer } from 'src/base/entities/answer.entity';
 import { Question } from 'src/base/entities/question.entity';
 import { Topic } from 'src/base/entities/topic.entity';
 import { Connection, Repository } from 'typeorm';
@@ -20,7 +20,7 @@ export class QuestionService {
         this.topicRepository = this.connection.getRepository(Topic);
     }
 
-    public async addOpenQuestion(data: any) {
+    public async addOpenQuestion(data: any): Promise<void> {
         const { questionTitle, type, topicId } = data;
         const topic = await this.topicRepository.findOne({ id: topicId });
         const question = Object.assign(new Question(), { questionTitle, type} );
@@ -30,7 +30,7 @@ export class QuestionService {
         return;
     }
 
-    public async addClosedQuestion(data: any) {
+    public async addClosedQuestion(data: any): Promise<void> {
         const {questionTitle, type, topicId, answers } = data;
         const topic = await this.topicRepository.findOne({ id: topicId });
         const question = Object.assign(new Question(), { questionTitle, type} );
@@ -47,7 +47,7 @@ export class QuestionService {
         return;
     }
 
-    public async getQuestionAnswers(questionId: number) {
+    public async getQuestionAnswers(questionId: number): Promise<Answer[]> {
         const question = await this.questionRepository.findOne({id: questionId}, { relations: ["answers"]});
         const answers = await question.answers;
         return answers;

@@ -19,30 +19,30 @@ export class AuthService {
 
         if (result) {
             const teacher: TeacherRO = await this.teacherService.findByUsername(username);
-            const token = await this.jwtService.signAsync({ id: '' + teacher.id });
+            const token = await this.jwtService.signAsync({ teacherId: '' + teacher.id });
             return token;
         }
 
         return null;
     }
 
-    public async registerTeacher(teacher) {
+    public async registerTeacher(teacher): Promise<void> {
         this.teacherService.create(teacher);
     }
 
-    public async loginStudent(username: string, password: string) {
+    public async loginStudent(username: string, password: string): Promise<string> {
         const result = await this.studentService.comparePasswords(username, password);
 
         if (result) {
             const student = await this.studentService.findByUsername(username);
-            const token = await this.jwtService.signAsync({ id: '' + student.id });
+            const token = await this.jwtService.signAsync({ studentId: '' + student.id });
             return token;
         }
 
         return null;
     }
 
-    public async registerStudent(username, email, facultyNumber, password) {
+    public async registerStudent(username, email, facultyNumber, password): Promise<void> {
         this.studentService.create(username, email, facultyNumber, password);
     }
 

@@ -28,27 +28,8 @@ export class TeacherController {
     async getSubjects(@Req() req: Request) {
         const userData = req.params.userData;
         const userId = userData["id"];
-        const userSubjects = await this.teacherService.getUserSubjects(userId);
+        const userSubjects = await this.teacherService.getTeacherSubjects(userId);
         return userSubjects;
     }
-
-
-    @Post('add-teacher-to-subject')
-    async addTeacherToSubject(@Body() body, @Req() req: Request) {
-        const userData = req.params.userData;
-        const userId = userData["id"];
-
-        const { teacherId, subjectId } = body;
-        const isOwner = await this.subjectService.isSubjectOwner(subjectId, userId);
-
-        if(isOwner) {
-            await this.teacherService.addTeacherToSubject(teacherId, subjectId);
-            return;
-        } else {
-            throw new UnauthorizedException;
-        }
-
-    }
-
     
 }

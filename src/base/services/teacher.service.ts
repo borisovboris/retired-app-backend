@@ -19,19 +19,19 @@ export class TeacherService {
             this.subjectRepository = this.connection.getRepository(Subject);
         }
 
-    public async create(teacher) {    
+    public async create(teacher): Promise<void> {    
         const entity = Object.assign(new Teacher(), teacher);
         await this.teacherRepository.save(entity);
     }
 
-    public async findByUsername(teacherUsername: string) {
+    public async findByUsername(teacherUsername: string): Promise<any> {
         const result = await this.teacherRepository.findOne({ username: teacherUsername });
         const { id, username, email } = result;
         const teacher: TeacherRO = { id, username, email};
         return teacher;
     }
 
-    public async findById(teacherId: number) {
+    public async findById(teacherId: number): Promise<Teacher> {
         const id = teacherId;
         const result = await this.teacherRepository.findOne(id, {relations: ['subjects'] });
         // const { id, username, email } = result;
@@ -50,14 +50,14 @@ export class TeacherService {
         return teacher.password;
     }
 
-    public async getTeacherSubjects(teacherId: string) {
+    public async getTeacherSubjects(teacherId: string): Promise<Subject[]> {
         const id = teacherId;
         const teacher = await this.teacherRepository.findOne(id, { relations: ["subjects"]});
         const subjects = await teacher.subjects;
         return subjects;
     }
 
-    public async searchTeachers(criteria: string) {
+    public async searchTeachers(criteria: string): Promise<any> {
         const result = await this.teacherRepository
         .find({ where: [ {username: Like(`%${criteria}%`)}, {email: Like(`%${criteria}%`)} ] });
         const teachers = result.map((el) => {
@@ -65,22 +65,5 @@ export class TeacherService {
         });
         return teachers;
     }
-
-    async addTeacherToSubject(teacherId, subjectId) {
-        const id = subjectId;
-        const teacher = await this.findById(teacherId);
-        const subject = await this.subjectRepository.findOne(id);
-        teacher.subjects = Promise.resolve([ subject ]);
-        await this.teacherRepository.save(teacher);
-    }
-
-    async getUserSubjects(userId: number) {
-        const id = userId;
-        const teacher = await this.teacherRepository.findOne( id, {relations: ['subjects']} );
-        const subjects = await teacher.subjects;
-
-        return subjects;
-    }
-
 
 }

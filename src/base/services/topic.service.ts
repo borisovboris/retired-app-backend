@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Subject } from 'src/base/entities/subject.entity';
 import { Topic } from 'src/base/entities/topic.entity';
 import { Connection, Repository } from 'typeorm';
+import { Question } from '../entities/question.entity';
 import { SubjectService } from './subject.service';
 
 @Injectable()
@@ -19,13 +20,13 @@ export class TopicService {
         this.subjectRepository = this.connection.getRepository(Subject);
     }
 
-    public async getTopic(topicId: number) {
+    public async getTopic(topicId: number): Promise<Topic> {
         const id = topicId;
         const topic = await this.topicRepository.findOne(id);
         return topic;
     }
 
-    public async addTopicToSubject(name: string, subjectId: number) {
+    public async addTopicToSubject(name: string, subjectId: number): Promise<void> {
         const topic = new Topic();
         topic.name = name;
         const subject = await this.subjectService.getById(subjectId);
@@ -33,14 +34,14 @@ export class TopicService {
         await this.topicRepository.save(topic);
     }
 
-    public async getTopicsOfSubject(subjectId: number) {
+    public async getSubjectTopics(subjectId: number): Promise<Topic[]> {
         const id = subjectId;
         const subject = await this.subjectRepository.findOne(id);
         const topicsOfSubject = await subject.topics;
         return topicsOfSubject;
     }
 
-    public async getQuestionsOfTopic(topicId) {
+    public async getTopicQuestions(topicId): Promise<Question[]> {
         const id = topicId;
         const topic = await this.topicRepository.findOne(id, { relations: ["questions"] });
         const questions = await topic.questions;

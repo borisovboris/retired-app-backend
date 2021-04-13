@@ -23,8 +23,12 @@ export class StudentGuard implements CanActivate {
             }
 
             const tokenPayload = await this.authService.validateToken(bearerToken);
-            const { id } = tokenPayload;
-            const existingStudent = await this.studentService.findById(id);
+            const { studentId } = tokenPayload;
+
+            if(!studentId) {
+                throw new Error();
+            }
+            const existingStudent = await this.studentService.findById(studentId);
 
             if(!existingStudent) {
                 throw new Error();

@@ -17,14 +17,14 @@ export class TopicController {
     @Get(':id/questions')
     async getTopicQuestions(@Param() params) {
         const topicId = params.id;
-        const questions = await this.topicService.getQuestionsOfTopic(topicId);
+        const questions = await this.topicService.getTopicQuestions(topicId);
         return questions;
     }
 
     @Get(':id')
     async topicsOfSubject(@Param() params) {
         const subjectId = params.id;
-        const topicsOfSubject = await this.topicService.getTopicsOfSubject(subjectId);
+        const topicsOfSubject = await this.topicService.getSubjectTopics(subjectId);
         return topicsOfSubject;
     } 
 

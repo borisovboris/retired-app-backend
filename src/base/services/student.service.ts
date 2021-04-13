@@ -19,17 +19,17 @@ export class StudentService {
         this.subjectRepository = this.connection.getRepository(Subject);
     }
 
-    async create(username, email, facultyNumber, password) {
+    async create(username, email, facultyNumber, password): Promise<void> {
         const entity = Object.assign(new Student(), { username, email, facultyNumber, password });
         await this.studentRepository.save(entity);
     }
 
-    async findByUsername(username: string) {
+    async findByUsername(username: string): Promise<Student> {
         const student = await this.studentRepository.findOne({ username });
         return student;
     }
 
-    async findById(studentId) {
+    async findById(studentId): Promise<Student> {
         const student = await this.studentRepository.findOne({ id: studentId });
         return student;
     }
@@ -45,7 +45,7 @@ export class StudentService {
         return student.password;
     }
 
-    async searchStudent(criteria: string) {
+    async searchStudent(criteria: string): Promise<any> {
         const result = await this.studentRepository
         .find({ where: [ {username: Like(`%${criteria}%`)}, {email: Like(`%${criteria}%`)}, {facultyNumber: Like(`%${criteria}%`)} ] });
         const students = result.map((el) => {
@@ -54,7 +54,7 @@ export class StudentService {
         return students;
     }
 
-    async addStudentToSubject(studentId, subjectId) {
+    async addStudentToSubject(studentId, subjectId): Promise<void> {
         const student = await this.studentRepository.findOne({id: studentId});
         const subject = await this.subjectRepository.findOne({id: subjectId}); 
         const students = await subject.students;
@@ -63,9 +63,17 @@ export class StudentService {
         return;
     }
 
-    async getSubjectsOfStudent(studentId) {
+    async getSubjectsOfStudent(studentId): Promise<Subject[]> {
         const student = await this.studentRepository.findOne({ id: studentId }, {relations: ['subjects'] });
         const subjects = await student.subjects;
         return subjects;
+    }
+
+    async removeStudentFromSubject(studentId, subjectId): Promise<void> {
+        const subject = await this.subjectRepository.findOne({ id: subjectId }, { relations: ['students'] });
+        const subjectStudents = await subject.students;
+        const newStudents = subjectStudents.filter(student => student.id != studentId);
+        subject.students = Promise.resolve(newStudents);
+        await this.subjectRepository.save(subject);
     }
 }
