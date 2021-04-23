@@ -1,7 +1,8 @@
+import { Session } from './session.entity';
 import { Exam } from 'src/base/entities/exam.entity';
 import { Teacher } from 'src/base/entities/teacher.entity';
 import { Topic } from 'src/base/entities/topic.entity';
-import {Entity, Column, PrimaryGeneratedColumn, PrimaryColumn, Generated, Index, ManyToMany, JoinTable, OneToMany} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, Index, ManyToMany, OneToMany} from 'typeorm';
 import { Student } from './student.entity';
 
 @Entity()
@@ -31,5 +32,8 @@ export class Subject {
 
     @OneToMany(type => Exam, exam => exam.subject)
     exams: Promise<Exam[]>;
+
+    @OneToMany(type => Session, session => session.subject)
+    sessions: Promise<Session[]>;
 
 }

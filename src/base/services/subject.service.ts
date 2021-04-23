@@ -88,4 +88,14 @@ export class SubjectService {
         subject.teachers = Promise.resolve(newTeachers);
         await this.subjectRepository.save(subject);
     }
+
+    async getSubjectExams(subjectId: number) {
+        const subject = await this.subjectRepository.findOne({ id: subjectId }, { relations: ["exams"]});
+        const exams = await subject.exams;
+        return exams;
+    }
+
+    async getSubjectSessions(subjectId: number) {
+        
+    }
 }

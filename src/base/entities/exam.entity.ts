@@ -1,6 +1,7 @@
+import { Session } from 'src/base/entities/session.entity';
 import { Question } from 'src/base/entities/question.entity';
 import { Subject } from 'src/base/entities/subject.entity'
-import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Exam {
@@ -18,6 +19,9 @@ export class Exam {
         cascade: true,
     })
     @JoinTable()
-    questions: Promise<Question[]>
+    questions: Promise<Question[]>;
+
+    @OneToMany(type => Session, session => session.exam)
+    sessions: Promise<Session[]>;
 
 }

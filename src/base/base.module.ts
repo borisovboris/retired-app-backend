@@ -23,6 +23,9 @@ import { StudentService } from './services/student.service';
 import { SubjectService } from './services/subject.service';
 import { TeacherService } from './services/teacher.service';
 import { TopicService } from './services/topic.service';
+import { SessionRepository } from 'src/session/session.repository';
+import { Session } from './entities/session.entity';
+import { SessionService } from './services/session.service';
 
 @Module({
     imports: [TypeOrmModule.forFeature
@@ -33,7 +36,8 @@ import { TopicService } from './services/topic.service';
         Topic, TopicRepository,
         Question, QuestionRepository,
         Answer, AnswerRepository,
-        Exam, ExamRepository
+        Exam, ExamRepository,
+        Session, SessionRepository
         ]),
         JwtModule.register({
             secret: jwtConstants.secret,
@@ -47,7 +51,8 @@ import { TopicService } from './services/topic.service';
         StudentService, 
         TopicService,
         QuestionService,
-        ExamService
+        ExamService,
+        SessionService
     ],
     exports: [
         AuthService, 
@@ -56,7 +61,8 @@ import { TopicService } from './services/topic.service';
         StudentService, 
         TopicService,
         QuestionService,
-        ExamService
+        ExamService,
+        SessionService
     ]
 })
 export class BaseModule {  

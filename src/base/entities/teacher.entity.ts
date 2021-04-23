@@ -1,7 +1,8 @@
-import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { BeforeInsert, Column, Entity, JoinTable, ManyToMany, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { bcryptConstants } from 'src/bcrypt/bcrypt.constants';
 import { Subject } from 'src/base/entities/subject.entity';
+import { Session } from 'src/base/entities/session.entity';
 
 @Entity({name: 'teacher'})
 export class Teacher {
@@ -23,6 +24,9 @@ export class Teacher {
    })
    @JoinTable()
    subjects: Promise<Subject[]>;
+
+   @OneToMany(type => Session, session => session.teacher)
+   sessions: Promise<Session[]>;
 
    @BeforeInsert()
     async hashPassword(): Promise<void> {

@@ -8,6 +8,12 @@ import { SubjectService } from '../base/services/subject.service';
 export class SubjectsController {
     constructor(private subjectService: SubjectService) { }
 
+    @Get(':id/exams')
+    async getSubjectExams(@Req() req: Request, @Param() params) {
+        const subjectId = params.id;
+        const exams = await this.subjectService.getSubjectExams(subjectId);
+        return exams;
+    }
 
     @Get(':id/topics')
     async getSubjectTopics(@Req() req: Request, @Param() params) {
