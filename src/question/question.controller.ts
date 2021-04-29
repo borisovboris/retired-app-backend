@@ -11,16 +11,15 @@ export class QuestionController {
 
     // CHECK IF TOPIC WHERE QUESTION HAS TO BE ADDED
     // IS PART OF THE SUBJECT OR NOT
-    @Get('answers/:id')
-    async getQuestionAnswers(@Param() params) {
+    @Get(':id/choices')
+    async getQuestionChoices(@Param() params) {
         const questionId = params.id;
-        const answers = await this.questionService.getQuestionAnswers(questionId);
-        return answers;
+        const choices = await this.questionService.getQuestionChoices(questionId);
+        return choices;
     }
 
     @Post()
     async addQuestion(@Body() question) {
-
         if(question.type === 'open') {
             this.questionService.addOpenQuestion(question);
         } else if (question.type === 'closed') {

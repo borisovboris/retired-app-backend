@@ -45,7 +45,7 @@ export class TopicService {
         const id = topicId;
         const topic = await this.topicRepository.findOne(id, { relations: ["questions"] });
         const questions = await topic.questions;
-        // Logger.log(JSON.stringify(await questions[1]["answers"]));
+        // Logger.log(JSON.stringify(await questions[1]["choices"]));
         return questions;
     }
 }

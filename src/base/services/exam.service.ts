@@ -39,18 +39,19 @@ export class ExamService {
     }
 
     public async addQuestionToExam(examId: number, questionId: number): Promise<void> {
-        const exam = await this.examRepository.findOne({ id: examId });
+        const exam = await this.examRepository.findOne({ id: examId }, { relations: ["questions"] });
         const newQuestion = await this.questionRepository.findOne({ id: questionId });
-        const questions = await exam.questions;
-        exam.questions = Promise.resolve([...questions, newQuestion]);
+        const questions = exam.questions;
+        // exam.questions = Promise.resolve([...questions, newQuestion]);
+        exam.questions = [...questions, newQuestion];
         // (await exam.questions).push(question);
         await this.examRepository.save(exam);
         return;
     }
 
     public async getExamQuestions(examId: number): Promise<Question[]> {
-        const exam = await this.examRepository.findOne({ id: examId }, { relations: ["questions", "questions.answers"] });
-        // question.answers of question entity is no longer a promise because of later complex implementation
+        const exam = await this.examRepository.findOne({ id: examId }, { relations: ["questions", "questions.choices"] });
+        // question.choices of question entity is no longer a promise because of later complex implementation
         const questions = await exam.questions;
         return questions;
     }
@@ -59,7 +60,8 @@ export class ExamService {
         const exam = await this.examRepository.findOne({ id: examId }, { relations: ["questions"] });
         const questions = await exam.questions;
         // the new questions have to be turned into a promise object or they cant be saved in exam.questions
-        exam.questions = Promise.resolve(questions.filter(question => question.id != questionId));
+        // exam.questions = Promise.resolve(questions.filter(question => question.id != questionId));
+        exam.questions = questions.filter(question => question.id != questionId);
         await this.examRepository.save(exam);
     }
 }

@@ -1,6 +1,8 @@
-import { Body, Controller, Get, Logger, Post } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Req, UseGuards } from '@nestjs/common';
+import { TeacherGuard } from 'src/auth/teacher.guard';
 import { SessionService } from 'src/base/services/session.service';
 
+@UseGuards(TeacherGuard)
 @Controller('sessions')
 export class SessionController {
 
@@ -15,7 +17,9 @@ export class SessionController {
     }
     
     @Post('add')
-    async createSession(@Body() body) {
-        this.sessionService.createSession(body);
+    async createSession(@Body() body, @Req() req) {
+        const userData = req.params.userData;
+        const userId = userData["id"];
+        this.sessionService.createSession(body, userId);
     }
 }

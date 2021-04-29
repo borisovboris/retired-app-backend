@@ -19,9 +19,6 @@ export class Exam {
         cascade: true,
     })
     @JoinTable()
-    questions: Promise<Question[]>;
-
-    @OneToMany(type => Session, session => session.exam)
-    sessions: Promise<Session[]>;
+    questions: Question[];
 
 }

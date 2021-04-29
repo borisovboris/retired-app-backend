@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Answer } from 'src/base/entities/answer.entity';
-import { AnswerRepository } from 'src/answer/answer.repository';
+import { Choice } from 'src/base/entities/choice.entity';
+import { ChoiceRepository } from 'src/choice/choice.repository';
 import { jwtConstants } from 'src/auth/jwt/jwt.constants';
 import { Exam } from 'src/base/entities/exam.entity';
 import { ExamRepository } from 'src/exam/exam.repository';
@@ -26,6 +26,8 @@ import { TopicService } from './services/topic.service';
 import { SessionRepository } from 'src/session/session.repository';
 import { Session } from './entities/session.entity';
 import { SessionService } from './services/session.service';
+import { StudentAnswer } from './entities/student-answer.entity';
+import { StudentAnswerRepository } from 'src/student-answer/student-answer.repository';
 
 @Module({
     imports: [TypeOrmModule.forFeature
@@ -35,9 +37,10 @@ import { SessionService } from './services/session.service';
         Student, StudentRepository,
         Topic, TopicRepository,
         Question, QuestionRepository,
-        Answer, AnswerRepository,
+        Choice, ChoiceRepository,
         Exam, ExamRepository,
-        Session, SessionRepository
+        Session, SessionRepository,
+        StudentAnswer, StudentAnswerRepository
         ]),
         JwtModule.register({
             secret: jwtConstants.secret,

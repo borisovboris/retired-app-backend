@@ -1,4 +1,4 @@
-import { Answer } from "src/base/entities/answer.entity";
+import { Choice } from "src/base/entities/choice.entity";
 import { Exam } from "src/base/entities/exam.entity";
 import { Topic } from "src/base/entities/topic.entity";
 import { Column, Entity, Index, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -9,20 +9,23 @@ enum Types {
 }
 
 @Entity()
-@Index(["questionTitle", "topic"], { unique: true })
+@Index(["title", "topic"], { unique: true })
 export class Question {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column()
-    questionTitle: string;
+    title: string;
 
     @Column("enum", { enum: Types})
     type: Types;
 
-    @OneToMany(type => Answer, answer => answer.question)
-    answers: Answer[];
+    @Column({ default: 1 })
+    maxPoints: number;
+
+    @OneToMany(type => Choice, choice => choice.question, { nullable: true })
+    choices: Choice[];
 
     @ManyToOne(type => Topic, topic => topic.questions)
     topic: Topic;

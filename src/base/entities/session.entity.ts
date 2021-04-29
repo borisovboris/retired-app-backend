@@ -1,9 +1,11 @@
 import { Subject } from './subject.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Teacher } from './teacher.entity';
 import { Exam } from './exam.entity';
+import { StudentExam } from './student-exam.entity';
 
 @Entity()
+@Index(['name', 'subject'], { unique: true})
 export class Session {
     @PrimaryGeneratedColumn()
     id: number;
@@ -23,6 +25,6 @@ export class Session {
     @ManyToOne(type => Subject, subject => subject.sessions)
     subject: Subject;
 
-    @ManyToOne(type => Exam, exam => exam.sessions)
-    exam: Exam;
+    @OneToMany(type => StudentExam, studentExam => studentExam.session)
+    studentExams: Promise<StudentExam[]>;
 }

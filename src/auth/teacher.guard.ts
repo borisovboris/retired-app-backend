@@ -40,7 +40,6 @@ export class TeacherGuard implements CanActivate {
             //works with undefined passed to findById
             const existingUser = await this.ts.findById(undefined);
 
-            console.log(existingUser);
             if(!existingUser) {
                 throw new Error();
             }

@@ -9,9 +9,13 @@ import { StudentModule } from './student/student.module';
 import { BaseModule } from './base/base.module';
 import { TopicModule } from './topic/topic.module';
 import { QuestionModule } from './question/question.module';
-import { AnswerModule } from './answer/answer.module';
+import { AnswerModule } from './choice/choice.module';
 import { ExamModule } from './exam/exam.module';
 import { SessionModule } from './session/session.module';
+import { StudentExamModule } from './student-exam/student-exam.module';
+import { StudentQuestionModule } from './student-question/student-question.module';
+import { StudentAnswerModule } from './student-answer/student-answer.module';
+import { StudentChoiceModule } from './student-choice/student-choice.module';
 
 
 @Module({
@@ -32,7 +36,7 @@ import { SessionModule } from './session/session.module';
   AuthModule, 
   SubjectModule, 
   StudentModule, 
-  TopicModule, QuestionModule, AnswerModule, ExamModule, SessionModule],
+  TopicModule, QuestionModule, AnswerModule, ExamModule, SessionModule, StudentExamModule, StudentQuestionModule, StudentAnswerModule, StudentChoiceModule],
   controllers: [AppController],
   providers: [AppService],
 })

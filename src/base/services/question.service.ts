@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Answer } from 'src/base/entities/answer.entity';
+import { Choice } from 'src/base/entities/choice.entity';
 import { Question } from 'src/base/entities/question.entity';
 import { Topic } from 'src/base/entities/topic.entity';
 import { Connection, Repository } from 'typeorm';
 
 @Injectable()
 export class QuestionService {
-    answerRepository: Repository<Answer>;
+    choiceRepository: Repository<Choice>;
     topicRepository: Repository<Topic>
 
     constructor
@@ -16,14 +16,14 @@ export class QuestionService {
         private readonly questionRepository: Repository<Question>,
         private readonly connection: Connection
     ) {
-        this.answerRepository = this.connection.getRepository(Answer);
+        this.choiceRepository = this.connection.getRepository(Choice);
         this.topicRepository = this.connection.getRepository(Topic);
     }
 
     public async addOpenQuestion(data: any): Promise<void> {
-        const { questionTitle, type, topicId } = data;
+        const { title, type, topicId, maxPoints } = data;
         const topic = await this.topicRepository.findOne({ id: topicId });
-        const question = Object.assign(new Question(), { questionTitle, type} );
+        const question = Object.assign(new Question(), { title, type, maxPoints } );
 
         question.topic = topic;
         await this.questionRepository.save(question);
@@ -31,25 +31,25 @@ export class QuestionService {
     }
 
     public async addClosedQuestion(data: any): Promise<void> {
-        const {questionTitle, type, topicId, answers } = data;
+        const {title, type, topicId, choices, maxPoints } = data;
         const topic = await this.topicRepository.findOne({ id: topicId });
-        const question = Object.assign(new Question(), { questionTitle, type} );
+        const question = Object.assign(new Question(), { title, type, maxPoints } );
        
         question.topic = topic;
         const dbQuestion = await this.questionRepository.save(question);
 
-        for(const answer of answers ) {
-            const answerEntity = await Object.assign(new Answer(), answer);
-            answerEntity.question = dbQuestion;
-            await this.answerRepository.save(answerEntity);
+        for(const choice of choices ) {
+            const choiceEntity = await Object.assign(new Choice(), choice);
+            choiceEntity.question = dbQuestion;
+            await this.choiceRepository.save(choiceEntity);
         }
 
         return;
     }
 
-    public async getQuestionAnswers(questionId: number): Promise<Answer[]> {
-        const question = await this.questionRepository.findOne({id: questionId}, { relations: ["answers"]});
-        const answers = await question.answers;
-        return answers;
+    public async getQuestionChoices(questionId: number): Promise<Choice[]> {
+        const question = await this.questionRepository.findOne({id: questionId}, { relations: ["choices"]});
+        const choices = await question.choices;
+        return choices;
     }
 }
