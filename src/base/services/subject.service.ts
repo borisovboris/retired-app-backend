@@ -90,12 +90,14 @@ export class SubjectService {
     }
 
     async getSubjectExams(subjectId: number) {
-        const subject = await this.subjectRepository.findOne({ id: subjectId }, { relations: ["exams"]});
+        const subject = await this.subjectRepository.findOne({ id: subjectId }, { relations: ["exams"] });
         const exams = await subject.exams;
         return exams;
     }
 
     async getSubjectSessions(subjectId: number) {
-        
+        const subject = await this.subjectRepository.findOne({ id: subjectId }, { relations: ["sessions", "sessions.teacher"] });
+        const sessions = await subject.sessions;
+        return sessions;
     }
 }

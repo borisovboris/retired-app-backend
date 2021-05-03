@@ -1,5 +1,6 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { StudentAnswer } from "./student-answer.entity";
+import { StudentChoice } from "./student-choice.entity";
 import { StudentExam } from "./student-exam.entity";
 enum Types {
     Open = "open",
@@ -28,6 +29,9 @@ export class StudentQuestion {
     @ManyToOne(type => StudentExam, studentExam => studentExam.studentQuestions, { cascade: true })
     studentExam: StudentExam;
 
-    @OneToMany(type => StudentAnswer, studentAnswer => studentAnswer.studentQuestion)
-    studentAnswers: StudentAnswer[];
+    @OneToOne(type => StudentAnswer, studentAnswer => studentAnswer.studentQuestion, { cascade: true })
+    studentAnswer: StudentAnswer;
+
+    @OneToMany(type => StudentChoice, studentChoice => studentChoice.studentQuestion)
+    studentChoices: StudentChoice[];
 }

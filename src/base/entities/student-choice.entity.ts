@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { StudentQuestion } from "./student-question.entity";
 
 @Entity()
 export class StudentChoice {
@@ -13,4 +14,7 @@ export class StudentChoice {
 
     @Column({ default: false })
     choice: boolean;
+
+    @ManyToOne(type => StudentQuestion, studentQuestion => studentQuestion.studentChoices, { cascade: true })
+    studentQuestion: StudentQuestion;
 }

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { StudentQuestion } from "./student-question.entity";
 
 @Entity()
@@ -9,6 +9,7 @@ export class StudentAnswer {
     @Column({ default: '' })
     text: string;
 
-    @ManyToOne(type => StudentQuestion, studentQuestion => studentQuestion.studentAnswers, { cascade: true })
+    @OneToOne(type => StudentQuestion, studentQuestion => studentQuestion.studentAnswer)
+    @JoinColumn()
     studentQuestion: StudentQuestion;
 }

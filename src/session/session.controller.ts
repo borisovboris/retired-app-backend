@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Logger, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Param, Post, Req, UseGuards } from '@nestjs/common';
 import { TeacherGuard } from 'src/auth/teacher.guard';
 import { SessionService } from 'src/base/services/session.service';
 
@@ -11,9 +11,12 @@ export class SessionController {
         private readonly sessionService: SessionService
     ) { }
 
-    @Get() 
-    async getSessions() {
-        return 'getSessions';
+
+    @Get(':id')
+    async getSession(@Param() params) {
+        const sessionId = params.id;
+        const session = await this.sessionService.getSession(sessionId);
+        return session;
     }
     
     @Post('add')

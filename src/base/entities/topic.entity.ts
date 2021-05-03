@@ -16,5 +16,4 @@ export class Topic {
 
     @OneToMany(type => Question, question => question.topic)
     questions: Promise<Question[]>
-
 }
