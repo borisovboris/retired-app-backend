@@ -1,11 +1,18 @@
-import { Logger, UseGuards } from '@nestjs/common';
+import { Logger, Req, UseGuards } from '@nestjs/common';
 import { Body, Controller, Get, Post, Response } from '@nestjs/common';
+import { Request } from 'express';
 import { AuthService } from '../base/services/auth.service';
 
 @Controller('auth')
 export class AuthController {
 
     constructor(private authService: AuthService) {}
+
+    @Get('check-occupation')
+    async checkUserOccupation(@Req() req: Request) {
+      const occupation = await this.authService.checkUserOccupation(req);
+      return occupation;
+    }
 
     @Post('teacher-register')
     async teacherRegister(@Body() teacher) {

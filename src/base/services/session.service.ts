@@ -108,8 +108,6 @@ export class SessionService {
             for (let studentQuestion of exam.studentQuestions) {
                 totalMaxPoints += studentQuestion.maxPoints;
 
-                Logger.log(JSON.stringify(studentQuestion));
-
                 if (studentQuestion.type === 'open') {
                     totalEarnedPoints += studentQuestion.earnedPoints;
                 } else if (studentQuestion.type === 'closed') {

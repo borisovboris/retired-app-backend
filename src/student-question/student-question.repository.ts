@@ -3,5 +3,5 @@ import { EntityRepository, Repository } from "typeorm";
 
 @EntityRepository(StudentQuestion)
 export class StudentQuestionRepository extends Repository<StudentQuestion>{
-
+    
 }

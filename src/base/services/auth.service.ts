@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { TeacherRO } from 'src/teacher/teacher.ro';
 import { TeacherService } from 'src/base/services/teacher.service';
 import { StudentService } from './student.service';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -50,5 +51,18 @@ export class AuthService {
         return await this.jwtService.verifyAsync(tokenId);
     }
 
+    public async checkUserOccupation(request: Request) {
+        const authorizationHeaders = request.headers["authorization"];
+        const bearerToken = authorizationHeaders.split(' ')[1];
+
+        const tokenPayload = await this.validateToken(bearerToken);
+        if(tokenPayload.studentId) {
+            return { occupation: 'student' };
+        } else if (tokenPayload.teacherId) {
+            return { occupation: 'teacher'};
+        } else {
+            return null;
+        }
+    }
 
 }

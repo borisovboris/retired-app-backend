@@ -28,6 +28,12 @@ import { Session } from './entities/session.entity';
 import { SessionService } from './services/session.service';
 import { StudentAnswer } from './entities/student-answer.entity';
 import { StudentAnswerRepository } from 'src/student-answer/student-answer.repository';
+import { StudentExamService } from './services/student-exam.service';
+import { StudentExam } from './entities/student-exam.entity';
+import { StudentExamRepository } from 'src/student-exam/student-exam.repository';
+import { StudentQuestionService } from './services/student-question.service';
+import { StudentQuestionRepository } from 'src/student-question/student-question.repository';
+import { StudentQuestion } from './entities/student-question.entity';
 
 @Module({
     imports: [TypeOrmModule.forFeature
@@ -40,7 +46,9 @@ import { StudentAnswerRepository } from 'src/student-answer/student-answer.repos
         Choice, ChoiceRepository,
         Exam, ExamRepository,
         Session, SessionRepository,
-        StudentAnswer, StudentAnswerRepository
+        StudentAnswer, StudentAnswerRepository,
+        StudentExam, StudentExamRepository,
+        StudentQuestion, StudentQuestionRepository
         ]),
         JwtModule.register({
             secret: jwtConstants.secret,
@@ -55,7 +63,9 @@ import { StudentAnswerRepository } from 'src/student-answer/student-answer.repos
         TopicService,
         QuestionService,
         ExamService,
-        SessionService
+        SessionService,
+        StudentExamService,
+        StudentQuestionService
     ],
     exports: [
         AuthService, 
@@ -65,7 +75,9 @@ import { StudentAnswerRepository } from 'src/student-answer/student-answer.repos
         TopicService,
         QuestionService,
         ExamService,
-        SessionService
+        SessionService,
+        StudentExamService,
+        StudentQuestionService
     ]
 })
 export class BaseModule {  

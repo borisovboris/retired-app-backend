@@ -17,7 +17,6 @@ import { StudentQuestionModule } from './student-question/student-question.modul
 import { StudentAnswerModule } from './student-answer/student-answer.module';
 import { StudentChoiceModule } from './student-choice/student-choice.module';
 
-
 @Module({
   imports: [ TypeOrmModule.forRoot({
     type: 'mysql',
