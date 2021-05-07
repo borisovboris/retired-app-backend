@@ -27,6 +27,16 @@ export class StudentController {
         return subjects;
     }
 
+    @UseGuards(StudentGuard)
+    @Get('subject/:id/exams')
+    async getStudentSubjectExams(@Param() params, @Req() req: Request) {
+        const subjectId = params.id;
+        const userData = req.params.userData;
+        const studentId = userData["id"];
+        const studentExams = await this.studentService.getStudentSubjectExams(studentId, subjectId);
+        return studentExams;
+    }
+
     @Post('add-student-to-subject')
     async addStudentToSubject(@Body() body) {
         const { studentId, subjectId } = body;
@@ -39,5 +49,6 @@ export class StudentController {
         const { studentId, subjectId } = params;
         await this.studentService.removeStudentFromSubject(studentId, subjectId);
     }
+
 
 }

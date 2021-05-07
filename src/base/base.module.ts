@@ -34,6 +34,7 @@ import { StudentExamRepository } from 'src/student-exam/student-exam.repository'
 import { StudentQuestionService } from './services/student-question.service';
 import { StudentQuestionRepository } from 'src/student-question/student-question.repository';
 import { StudentQuestion } from './entities/student-question.entity';
+import { SharedModule } from 'src/shared/shared.module';
 
 @Module({
     imports: [TypeOrmModule.forFeature
@@ -53,7 +54,8 @@ import { StudentQuestion } from './entities/student-question.entity';
         JwtModule.register({
             secret: jwtConstants.secret,
             signOptions: { expiresIn: '36000s'}
-          })
+        }),
+        SharedModule
     ],
     providers: [
         AuthService, 

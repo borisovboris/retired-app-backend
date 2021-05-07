@@ -10,6 +10,7 @@ import { StudentExam } from '../entities/student-exam.entity';
 import { StudentQuestion } from '../entities/student-question.entity';
 import { StudentAnswer } from '../entities/student-answer.entity';
 import { StudentChoice } from '../entities/student-choice.entity';
+import { ExamResultService } from 'src/shared/exam-result/exam-result.service';
 
 @Injectable()
 export class SessionService {
@@ -26,7 +27,8 @@ export class SessionService {
         (
             @InjectRepository(Session)
             private readonly sessionRepository: Repository<Session>,
-            private readonly connection: Connection
+            private readonly connection: Connection,
+            private readonly examResultService: ExamResultService
         ) {
         this.examRepository = this.connection.getRepository(Exam);
         this.subjectRepository = this.connection.getRepository(Subject);
@@ -83,6 +85,9 @@ export class SessionService {
         }
     }
 
+    // get session details for teacher, with only each student exam's overall results -
+    // maxpoints and earnedpoints
+
     async getSession(sessionId: number) {
         const session = await this.sessionRepository
             .findOne(
@@ -97,34 +102,11 @@ export class SessionService {
                     ]
                 }
             );
-
         const exams = await session.studentExams;
+
         const studentExams = [];
-
         for (let exam of exams) {
-            let totalEarnedPoints: number = 0;
-            let totalMaxPoints: number = 0;
-
-            for (let studentQuestion of exam.studentQuestions) {
-                totalMaxPoints += studentQuestion.maxPoints;
-
-                if (studentQuestion.type === 'open') {
-                    totalEarnedPoints += studentQuestion.earnedPoints;
-                } else if (studentQuestion.type === 'closed') {
-                    let studentIsCorrect = true;
-                    for (const studentChoice of studentQuestion.studentChoices) {
-                        if (studentChoice.isCorrect !== studentChoice.choice) {
-                            studentIsCorrect = false;
-                            break;
-                        }
-                    }
-
-                    if (studentIsCorrect) {
-                        totalEarnedPoints += studentQuestion.earnedPoints;
-                    }
-                }
-
-            }
+           const { totalEarnedPoints, totalMaxPoints } = await this.examResultService.getExamPoints(exam);
 
             studentExams.push({
                 totalEarnedPoints,
